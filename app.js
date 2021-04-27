@@ -14,7 +14,7 @@ app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/public'));
 
 
-// setting the spotify-api goes here:
+// setting the spotify-api goes here
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET
@@ -23,7 +23,10 @@ const spotifyApi = new SpotifyWebApi({
 // Retrieve an access token
 spotifyApi
   .clientCredentialsGrant()
-  .then(data => spotifyApi.setAccessToken(data.body['access_token']))
+  .then(data =>{
+    spotifyApi.setAccessToken(data.body['access_token']);
+    console.log('authentification réussie')
+  })
   .catch(error => console.log('Something went wrong when retrieving an access token', error));
 
 
@@ -31,13 +34,18 @@ spotifyApi
 app.get('/', (req, res, next) => {
   res.render('home', { title: 'home' })
 })
-
-spotifyApi
-  .searchArtists("artist:/artist-search")
+app.get('/artist-search', (req, res, next)=>{//
+  // demander les groupes qui s'appelent "Mozart"
+  spotifyApi
+  .searchArtists(req.query.artist)
   .then(data => {
     console.log('The received data from the API: ', data.body);
-    // ----> 'HERE WHAT WE WANT TO DO AFTER RECEIVING THE DATA FROM THE API'
+    res.render('artist-search-results', {title: 'result'})
   })
   .catch(err => console.log('The error while searching artists occurred: ', err));
+  
+})
+
+
 
 app.listen(4000, () => console.log('My Spotify project running on port 3000 🎧 🥁 🎸 🔊'));
