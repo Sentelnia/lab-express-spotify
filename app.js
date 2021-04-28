@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const hbs = require('hbs');
+util = require ('util')
 
 
 // require spotify-web-api-node package here:
@@ -30,7 +31,7 @@ spotifyApi
   })
   .catch(error => console.log('Something went wrong when retrieving an access token', error));
 
-
+let artist;
 // Our routes go here:
 app.get('/', (req, res, next) => {
   res.render('home', { title: 'home' })
@@ -39,11 +40,21 @@ app.get('/artist-search', (req, res, next)=>{//
   // demander les groupes qui s'appelent "Mozart"
   spotifyApi
   .searchArtists(req.query.artist)
-  .then(data => {
-    res.render('artist-search-results',  {myArtists : data.body.artists.items})
+  .then(data => { 
+    res.render('artist-search-results',  {myArtists : data.body.artists.items, title : 'artists'});
   })
   .catch(err => console.log('The error while searching artists occurred: ', err));
   
+})
+
+//route get artist album
+app.get('/albums/:artistId',(req, res, next)=>{
+  spotifyApi
+  .getArtistAlbums(req.params.artistId)
+  .then(data =>{ util.inspect(data.body.items.artists)
+    res.render('albums', {albums: data.body.items, title : 'albums'})
+  })
+  .catch(err => console.log('The error while searching artists occurred: ', err));
 })
 
 

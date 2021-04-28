@@ -40,7 +40,7 @@ input{
     flex-wrap: wrap;
 }
 
-.artistCard{
+.artistCard, .albumCard{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -49,19 +49,19 @@ input{
     margin: 1em 2em;
 }
 
-.artistCard h1{
+.artistCard h1,.albumCard h1{
     color: white;
     padding: 0.2em;
     margin: 0;
     font-size: 1.5em;
 }
 
-.artistCard img{
+.artistCard img, .albumCard img{
     object-fit: contain;
     width: 20em;
 }
 
-.artistCard a{
+.artistCard a, .albumCard a{
     background-color: red;
     border-radius: 6px;
     color: white;
