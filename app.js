@@ -12,6 +12,7 @@ const app = express();
 app.set('view engine', 'hbs');
 app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/public'));
+hbs.registerPartials(__dirname + "/views/partials");
 
 
 // setting the spotify-api goes here
@@ -39,7 +40,6 @@ app.get('/artist-search', (req, res, next)=>{//
   spotifyApi
   .searchArtists(req.query.artist)
   .then(data => {
-    console.log('The received data from the API: ', data.body.artists.items,data.body.artists.items);
     res.render('artist-search-results',  {myArtists : data.body.artists.items})
   })
   .catch(err => console.log('The error while searching artists occurred: ', err));
@@ -48,4 +48,4 @@ app.get('/artist-search', (req, res, next)=>{//
 
 
 
-app.listen(4000, () => console.log('My Spotify project running on port 3000 🎧 🥁 🎸 🔊'));
+app.listen(3000, () => console.log('My Spotify project running on port 3000 🎧 🥁 🎸 🔊'));

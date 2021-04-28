@@ -1,7 +1,5 @@
-<div>
-    {{#each myArtists}}
-    {{this.name}}
-    <img src={{images.[0].url}}>
-    {{this.external_urls.spotify}}
+<div class= 'container'>
+     {{#each myArtists}}
+    {{>artistCard}}
     {{/each}}
 </div>
